@@ -5,9 +5,9 @@ import com.github.j4c62.delivery.Deliverer;
 import com.github.j4c62.delivery.Diffusible;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class MessageDeliverer implements Deliverer {
   private final RabbitTemplate rabbitTemplate;
