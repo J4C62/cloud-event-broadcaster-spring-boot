@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: app1
+  config:
+    import: 'optional:configserver:'
+  profiles:
+    active: default
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh,env,health,info
+
+
+
