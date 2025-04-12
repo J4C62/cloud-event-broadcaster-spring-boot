@@ -1,10 +1,10 @@
-package com.github.j4c62.infrastructure.deliverer;
+package com.github.j4c62.infrastructure.delivery;
 
 import com.github.j4c62.application.config.ApplicationProperties;
 import com.github.j4c62.data.Channel;
 import com.github.j4c62.delivery.Deliverer;
 import com.github.j4c62.delivery.Diffusible;
-import com.github.j4c62.infrastructure.dto.CloudEvent;
+import com.github.j4c62.infrastructure.delivery.dto.CloudEvent;
 import com.github.j4c62.selector.DelivererSelector;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -18,6 +18,10 @@ import java.util.function.Predicate;
 public class DelivererChannelMatcher implements DelivererSelector {
   private final List<Deliverer> deliverers;
   private final List<ApplicationProperties.ChannelConfig> channels;
+
+  private static Predicate<ApplicationProperties.ChannelConfig> buildChannelConfigPredicate(CloudEvent event) {
+    return channelConfig -> channelConfig.getSource().equals(event.source()) && channelConfig.getType().equals(event.type());
+  }
 
   @Override
   public List<Deliverer> findDelivers(Diffusible diffusible) {
@@ -37,9 +41,5 @@ public class DelivererChannelMatcher implements DelivererSelector {
 
   private boolean isChannelMatching(Deliverer deliverer, Channel channel) {
     return channel.equals(deliverer.getChannel());
-  }
-
-  private static Predicate<ApplicationProperties.ChannelConfig> buildChannelConfigPredicate(CloudEvent event) {
-    return channelConfig -> channelConfig.getSource().equals(event.source()) && channelConfig.getType().equals(event.type());
   }
 }

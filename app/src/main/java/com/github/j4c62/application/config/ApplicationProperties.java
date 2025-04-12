@@ -14,6 +14,7 @@ import java.util.List;
 @ConfigurationProperties("application")
 public class ApplicationProperties {
   private List<ChannelConfig> channels;
+  private List<TemplatesConfig> templates;
 
   @Data
   public static class ChannelConfig {
@@ -22,4 +23,11 @@ public class ApplicationProperties {
     private List<Channel> channel;
   }
 
+  @Data
+  public static class TemplatesConfig {
+    private String source;
+    private String type;
+    private String template;
+
+  }
 }

@@ -1,4 +1,4 @@
-package com.github.j4c62.infrastructure.dto;
+package com.github.j4c62.infrastructure.delivery.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.j4c62.data.Channel;

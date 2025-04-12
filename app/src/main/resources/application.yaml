@@ -5,6 +5,15 @@ spring:
     import: 'optional:configserver:'
   profiles:
     active: default
+  mail:
+    host: localhost
+    port: 1025
+    username: ""
+    password: ""
+    properties:
+      mail:
+        smtp:
+          auth: false
 management:
   endpoints:
     web:

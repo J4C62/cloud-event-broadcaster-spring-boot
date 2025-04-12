@@ -1,4 +1,4 @@
-package com.github.j4c62.infrastructure.deliverer;
+package com.github.j4c62.infrastructure.delivery.deliverer;
 
 import com.github.j4c62.data.Channel;
 import com.github.j4c62.delivery.Deliverer;
