@@ -6,11 +6,10 @@ import com.github.j4c62.delivery.Deliverer;
 import com.github.j4c62.delivery.Diffusible;
 import com.github.j4c62.infrastructure.delivery.dto.CloudEvent;
 import com.github.j4c62.selector.DelivererSelector;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.function.Predicate;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
@@ -19,8 +18,11 @@ public class DelivererChannelMatcher implements DelivererSelector {
   private final List<Deliverer> deliverers;
   private final List<ApplicationProperties.ChannelConfig> channels;
 
-  private static Predicate<ApplicationProperties.ChannelConfig> buildChannelConfigPredicate(CloudEvent event) {
-    return channelConfig -> channelConfig.getSource().equals(event.source()) && channelConfig.getType().equals(event.type());
+  private static Predicate<ApplicationProperties.ChannelConfig> buildChannelConfigPredicate(
+      CloudEvent event) {
+    return channelConfig ->
+        channelConfig.getSource().equals(event.source())
+            && channelConfig.getType().equals(event.type());
   }
 
   @Override

@@ -17,13 +17,10 @@ public class MessageListener {
   @RabbitListener(queues = "myQueue")
   public void handleMessage(String event) {
     try {
-      var cloudEvent = mapper.readValue(event, new TypeReference<CloudEvent>() {
-      });
+      var cloudEvent = mapper.readValue(event, new TypeReference<CloudEvent>() {});
       poster.post(cloudEvent);
     } catch (Exception ex) {
       System.out.println(ex);
     }
-
-
   }
 }

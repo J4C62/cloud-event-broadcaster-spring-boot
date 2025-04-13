@@ -8,30 +8,36 @@ import com.github.j4c62.delivery.Diffusible;
 import com.github.j4c62.infrastructure.delivery.DiffusibleFactory;
 import com.github.j4c62.infrastructure.delivery.dto.CloudEvent;
 import com.github.j4c62.selector.DelivererSelector;
+import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.List;
 
 @Configuration
 public class DomainConfig {
 
-  private static void getBroadcast(DelivererSelector delivererSelector, Diffusible message, TemplateConfig.NotificationTemplateEngine engine, ApplicationProperties applicationProperties) {
-    DiffusibleComposer diffusibleComposer = () -> DiffusibleFactory.createDiffusibles((CloudEvent) message, applicationProperties, engine);
+  private static void getBroadcast(
+      DelivererSelector delivererSelector,
+      Diffusible message,
+      TemplateConfig.NotificationTemplateEngine engine,
+      ApplicationProperties applicationProperties) {
+    DiffusibleComposer diffusibleComposer =
+        () ->
+            DiffusibleFactory.createDiffusibles(
+                (CloudEvent) message, applicationProperties, engine);
     Broadcaster.spec(delivererSelector, diffusibleComposer)
         .onError(System.out::println)
         .onDelivery(System.out::println)
         .filter(x -> !x.getChannel().equals(Channel.EVENT_BRIDGE))
-        .when(((diffusible, broadcaster) -> true)).execute(message);
-
+        .when(((diffusible, broadcaster) -> true))
+        .execute(message);
   }
-
 
   @Bean
   public Poster poster(
-      final DelivererSelector delivererSelector, final TemplateConfig.NotificationTemplateEngine engine, ApplicationProperties applicationProperties) {
+      final DelivererSelector delivererSelector,
+      final TemplateConfig.NotificationTemplateEngine engine,
+      ApplicationProperties applicationProperties) {
     return message -> getBroadcast(delivererSelector, message, engine, applicationProperties);
-
   }
 
   @Bean
@@ -39,6 +45,4 @@ public class DomainConfig {
       ApplicationProperties applicationProperties) {
     return applicationProperties.getChannels();
   }
-
-
 }

@@ -21,4 +21,14 @@ management:
         include: refresh,env,health,info
 
 
+grpc:
+  client:
+    EventEmitter:
+      address: 'static://127.0.0.1:9090'
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+
+
+
 

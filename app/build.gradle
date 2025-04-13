@@ -3,10 +3,11 @@ plugins {
     id 'application'
     id 'org.springframework.boot' version '3.4.4'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'com.google.protobuf' version '0.9.5'
 }
 
 group = 'com.github.j4c62'
-version = '0.0.4'
+version = '0.0.5'
 ext {
     springCloudVersion = '4.2.2'
 }
@@ -32,7 +33,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 
-    implementation 'com.github.j4c62:cloud-event-broadcaster:1.0.6'
+    implementation 'com.github.j4c62:cloud-event-broadcaster:1.0.7'
+
+
+    implementation 'net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE'
+    runtimeOnly 'io.grpc:grpc-netty-shaded:1.71.0'
+    implementation 'io.grpc:grpc-protobuf:1.71.0'
+    implementation 'io.grpc:grpc-stub:1.71.0'
+
 
     compileOnly 'org.projectlombok:lombok:1.18.38'
     annotationProcessor 'org.projectlombok:lombok:1.18.38'
@@ -55,7 +63,31 @@ dependencyManagement {
 application {
     mainClass = 'com.github.j4c62.SpringBootCloudEventBroadcasterApp'
 }
-
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.25.1"
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.71.0'
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {
+                option '@generated=omit'
+            }
+        }
+    }
+}
+sourceSets {
+    main {
+        java {
+            srcDirs 'build/generated/source/proto/main/grpc'
+            srcDirs 'build/generated/source/proto/main/java'
+        }
+    }
+}
 tasks.named('test') {
     // Usa JUnit Platform para ejecutar pruebas unitarias
     useJUnitPlatform()

@@ -2,7 +2,6 @@ package com.github.j4c62.infrastructure.delivery.dto;
 
 import com.github.j4c62.data.Channel;
 import com.github.j4c62.delivery.Diffusible;
-
 import java.util.List;
 
 public record Email(
@@ -20,6 +19,5 @@ public record Email(
     return Channel.EMAIL;
   }
 
-  public record EmailAttachment(String filename, byte[] content, String contentType) {
-  }
+  public record EmailAttachment(String filename, byte[] content, String contentType) {}
 }
